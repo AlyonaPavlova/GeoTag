@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta  charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"/>
+    <title>GeoTag</title>
+    <link rel="stylesheet" href="css/jquery.mobile.min.css"/>
+    <link rel="stylesheet" href="css/file.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <!--Включить во время компиляции для IOS-->
+    <!--<script>window._cordovaNative = true;</script>-->
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript">app.initialize();</script>
+    <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="jssor.slider-23.1.6.mini.js"></script>
+    <script type="text/javascript" src="https://api-maps.yandex.ru/2.0-stable/?lang=ru-RU&load=package.full" ></script>
+    <!--<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>-->
+    <script type="text/javascript" src="statusbar.js"></script>
+    <script type="text/javascript" src="slider.js"></script>
+    <script type="text/javascript" src="camera_shot.js"></script>
+    <script type="text/javascript" src="map_app.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+
+</head>
+<body>
+<div id="main_page" data-role="page" data-dom-cache="true" data-theme="b">
+    <div data-role="header" data-theme="b" style="z-index: 1">
+        <h1>Главное меню</h1>
+        <a href="#opt_panel" data-icon="gear" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Настройки</a></div>
+    <div data-role="panel" id="opt_panel" data-theme="b" data-display="overlay">
+        <div data-role="header" data-theme="b" style="z-index: 1">
+            <h2>Настройки</h2>
+            <a href="#" data-rel="close" class="ui-btn ui-btn-right ui-corner-all ui-icon-delete ui-btn-icon-notext ui-mini">Закрыть настройки</a>
+        </div>
+        <a id="1" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-user" href="#main_page" data-transition="pop">Личный кабинет</a>
+        <a id="2" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-mail" href="#main_page" data-transition="pop">Оповещения</a>
+        <a id="3" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-grid" href="#main_page" data-transition="pop">Тема оформления</a>
+        <a id="4" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-info" href="#main_page" data-transition="pop">О приложении</a>
+    </div>
+    <a id="to_add_menu" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-edit" href="#add_page" data-transition="pop" data-icon="star">Сообщить о проблеме</a>
+    <a id="to_map_page" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-location" href="#map_page" data-transition="pop" data-icon="location">Карта</a>
+    <a id="to_menu_points" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-bullets" href="#points" data-transition="pop" data-icon="star">Список проблем</a>
+    <a id="to_favor" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-heart" href="#points" data-transition="pop" data-icon="star">Избранное</a>
+    <a id="to_my_problems" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-star" href="#points" data-transition="pop" data-icon="star">Мои проблемы</a>
+</div>
+
+<div id="points" data-role="page" data-dom-cache="true" data-theme="b">
+    <div data-role="header">
+        <h1>Точки</h1>
+        <a id="to_main_menu_points" class="ui-btn-right" href="#main_page" data-transition="pop" data-icon="home" data-direction="reverse">Меню</a>
+    </div>
+    <div>
+        <form>
+            <input id="filter-for-listview" data-type="search" placeholder="Type to search...">
+        </form>
+        <ul data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-listview">
+            <li><a href="#">Некрасовский 19, Яма</a></li>
+            <li><a href="#">Петровская 57, Светофор</a></li>
+            <li><a href="#">Чехова 256, Светофор</a></li>
+            <li><a href="#">Фрунзе 98, Зебра</a></li>
+            <li><a href="#">Дорожная 5, Люк</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="map_page" data-role="page" data-dom-cache="true" data-theme="b">
+    <div data-role="header" data-theme="b" style="z-index: 1">
+        <a id="to_filter_page" class="ui-btn-left" href="#" data-transition="pop" data-icon="eye" data-direction="reverse">Фильтр</a>
+        <h1>Карта</h1>
+        <a id="to_main_menu_map" class="ui-btn-right" href="#main_page" data-transition="pop" data-icon="home" data-direction="reverse">Меню</a>
+    </div>
+    <!--<div id="map-canvas" data-role="main" class="ui-content" style="z-index: 0"></div>-->
+    <div data-role="content" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; background-color: #f3f1ed;">
+        <!--<div id="map"></div>-->
+    </div>
+    <!--<div id="map-canvas" data-role="main" class="ui-content" style="z-index: 0"></div>-->
+    <!--<div data-role="content" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow: hidden; background-color: #f3f1ed;">-->
+    <div id="map" style="position: absolute; width: 100%; height: 100%; overflow: hidden"></div>
+</div>
+
+<div id="add_page" data-role="page" data-dom-cache="true" data-theme="b">
+    <div data-role="header" data-theme="b" style="z-index: 1">
+        <h1>Проблема</h1>
+        <a id="to_main_menu_add" class="ui-btn-right" href="#main_page" data-transition="pop" data-icon="home" data-direction="reverse">Меню</a>
+    </div>
+    <a id="to_classificator_page" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-tag" href="#classificator_page" data-transition="pop">Выбрать тип проблемы</a>
+    <form>
+        <textarea cols="40" rows="50" name="trouble-description" id="trouble-description" placeholder="Опишите суть проблемы."></textarea>
+    </form>
+    <a id="add_photo" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-camera" href="#" onclick="capturePhoto();" data-transition="pop">Сделать снимок</a>
+    <!--<a id="add_photo" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-camera" href="#" onclick="showPhoto();" data-transition="pop">Сделать фотографию</a>-->
+    <div id="photos">
+    <!--<div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:1300px;height:900px;overflow:hidden;visibility:hidden; align-content: center">-->
+        <!--<div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1300px;height:900px;overflow:hidden; align-content: center">-->
+            <!--<div>-->
+                <!--&lt;!&ndash;<img data-u="image" style="display:none;width:100px;height:100px;" id="smallImage" src="" />&ndash;&gt;-->
+                <!--<img id="smallImage" src="" />-->
+                <!--&lt;!&ndash;<img data-u="image" src="img/red.jpg" />&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<img id="smallImage1" src="" />-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<img id="smallImage2" src="" />-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div data-u="navigator" class="jssorb05" style="bottom:16px;right:16px;" data-autocenter="1">-->
+            <!--&lt;!&ndash; bullet navigator item prototype &ndash;&gt;-->
+            <!--<div data-u="prototype" style="width:16px;height:16px;"></div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; Arrow Navigator &ndash;&gt;-->
+        <!--<span data-u="arrowleft" class="jssora22l" style="top:0px;left:8px;width:40px;height:58px;" data-autocenter="2"></span>-->
+        <!--<span data-u="arrowright" class="jssora22r" style="top:0px;right:8px;width:40px;height:58px;" data-autocenter="2"></span>-->
+    <!--</div>-->
+    </div>
+
+    <!--<img style="display:none;width:100px;height:100px;" id="smallImage" src="" />-->
+
+    <a id="btn_ok" class="ui-btn ui-corner-all ui-btn-icon-left ui-icon-navigation"  href="#" onclick="getAlert();" data-transition="pop">Опубликовать</a>
+
+</div>
+
+<div id="classificator_page" data-role="page" data-dom-cache="true" data-theme="b">
+    <div data-role="header" data-theme="b" style="z-index: 1">
+        <h1>Тип проблемы</h1>
+        <a id="to_add_page" class="ui-btn-right" href="#add_page" data-transition="pop" data-icon="edit" data-direction="reverse">Назад</a>
+    </div>
+    <ul id="problemsList" data-role="listview" data-inset="true" data-filter="true" data-input="#filter-for-listview">
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function setProblemName() {
+                $('.plist').click(function () {
+                    $('#to_classificator_page').text($(this).text());
+                });
+            })
+
+        </script>
+        <li><a id="p1" class="plist" href="#add_page" onclick="setProblemName()">Яма на дороге</a></li>
+        <li><a id="p2" class="plist" href="#add_page" onclick="setProblemName()">Разбитая дорога</a></li>
+        <li><a id="p3" class="plist" href="#add_page" onclick="setProblemName()">Отсутствует светофор</a></li>
+        <li><a id="p4" class="plist" href="#add_page" onclick="setProblemName()">Отсутствует пешеходный переход</a></li>
+        <li><a id="p5" class="plist" href="#add_page" onclick="setProblemName()">Отсутствует разметка</a></li>
+        <li><a id="p6" class="plist" href="#add_page" onclick="setProblemName()">Отсутствует люк</a></li>
+        <li><a id="p7" class="plist" href="#add_page" onclick="setProblemName()">Перегорожен проезд</a></li>
+        <li><a id="p8" class="plist" href="#add_page" onclick="setProblemName()">Подтопление участка дороги</a></li>
+        <li><a id="p9" class="plist" href="#add_page" onclick="setProblemName()">Снежный завал</a></li>
+        <li><a id="p10" class="plist" href="#add_page" onclick="setProblemName()">Дикие животные</a></li>
+        <li><a id="p11" class="plist" href="#add_page" onclick="setProblemName()">Обрыв линии электропередачи</a></li>
+        <li><a id="p12" class="plist" href="#add_page" onclick="setProblemName()">Отсутствует освещение</a></li>
+        <li><a id="p13" class="plist" href="#add_page" onclick="setProblemName()">Другая проблема</a></li>
+    </ul>
+</div>
+
+<!--<div data-role="popup" id="noGeo">-->
+    <!--<p>NO GEOLOCATION ACCESS.</p>-->
+<!--</div>-->
+</body>
+</html>
